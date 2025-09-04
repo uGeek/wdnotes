@@ -4,8 +4,22 @@
 
 Esto significa que tus notas son archivos legibles y portátiles que puedes sincronizar, respaldar y gestionar con las herramientas que ya usas.
 
+Versión Móvil
 
-*(Recomendación: Reemplaza esta URL con una captura de pantalla real de tu aplicación)*
+<img width="579" height="796" alt="image" src="https://github.com/user-attachments/assets/47d7eb28-2986-40f2-a0cf-ea27474e420d" />
+
+
+Versión Escritorio
+
+
+<img width="1318" height="777" alt="image" src="https://github.com/user-attachments/assets/48aad3d9-18d3-4544-b189-90b40d730d89" />
+
+
+Múltiples opciones de edición
+
+<img width="590" height="945" alt="image" src="https://github.com/user-attachments/assets/8d7d3a2c-0008-4a03-b55e-3d50dec9d3aa" />
+
+
 
 ---
 
