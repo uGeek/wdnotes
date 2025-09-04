@@ -51,7 +51,8 @@ La simplicidad de `wdnotes` reside en su estructura de archivos. Todo se gestion
 │   └── 20250904_183000-NombreDeLaNota.html
 │
 └── .files/                      # Directorio para los archivos adjuntos
-    └── documento_importante.pdf```
+    └── documento_importante.pdf
+```
 
 ### Formato del Nombre de Archivo
 
@@ -168,4 +169,7 @@ El nombre de cada archivo de nota contiene metadatos importantes, lo que elimina
     ```
 3.  **Selección en la App:** Dentro de las ventanas de "Dictado por Voz" o "Mejorar Nota", podrás seleccionar el proveedor y el modelo que desees utilizar. Tu selección por defecto se guardará en `/dav/apps/llm/llm-wdrss.txt`.
 
----
+
+## Idea y Desarrollo
+Desarrollado por Angel de uGeek con la mayor parte del codigo con IA.
+wdnotes © uGeek. 2025
