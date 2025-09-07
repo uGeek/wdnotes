@@ -1884,181 +1884,185 @@
         }
         
         async function showEditorView(noteName, options = {}) {
-          currentEditingNoteName = noteName;
-          
-          const noteData = findNoteDataByDecodedName(noteName);
-          if (!noteData) {
-              M.toast({html: `No se pudo encontrar la nota.`, classes: 'red'});
-              return;
-          }
+            currentEditingNoteName = noteName;
+            
+            const noteData = findNoteDataByDecodedName(noteName);
+            if (!noteData) {
+                M.toast({html: `No se pudo encontrar la nota.`, classes: 'red'});
+                return;
+            }
 
-          document.title = `wdnotes. ${noteData.displayName}`;
-          
-          const url = new URL(window.location);
-          url.searchParams.set('nota', noteName);
-          history.pushState({ note: noteName }, '', url);
+            // Immediately show the modal with basic info
+            document.title = `wdnotes. ${noteData.displayName}`;
+            const url = new URL(window.location);
+            url.searchParams.set('nota', noteName);
+            history.pushState({ note: noteName }, '', url);
 
-          const titleWithTags = noteData.tags.length > 0
-              ? `${noteData.displayName} ${noteData.tags.map(t => `#${t}`).join(' ')}`
-              : noteData.displayName;
-          modalTitleInput.value = titleWithTags;
-          
-          const date = noteData.date;
-          const formattedDate = date.toLocaleDateString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric'});
-          const formattedTime = date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-          modDateElement.innerHTML = `Edit: <span class="mod-date-date">${formattedDate}</span><span class="mod-date-time">${formattedTime}</span>`;
-          
-          const noteColor = noteData.color;
-          if (noteColor && noteColor !== '#ffffff') {
-              modalEditorContainer.style.backgroundColor = noteColor;
-              if (isColorLight(noteColor)) {
-                  modalEditorContainer.classList.remove('dark-bg');
-                  modalEditorContainer.classList.add('light-bg');
-              } else {
-                  modalEditorContainer.classList.remove('light-bg');
-                  modalEditorContainer.classList.add('dark-bg');
-              }
-          } else {
-              modalEditorContainer.style.backgroundColor = '';
-              modalEditorContainer.classList.remove('light-bg', 'dark-bg');
-          }
-
-          pinModalBtn.classList.toggle('pinned', noteData.isPinned);
-          pinModalBtn.dataset.tooltip = noteData.isPinned ? "Quitar fijación" : "Fijar";
-
-          const moveModalDropdown = document.getElementById('move-modal-dropdown');
-          if (moveModalDropdown) {
-              let moveOptions = '';
-              predefinedPaths.forEach(p => {
-                  if (p.path !== webdavNotesUrl) {
-                      moveOptions += `<li><a href="#!" data-action="move-to" data-path="${p.path}">${p.name}</a></li>`;
-                  }
-              });
-              moveModalDropdown.innerHTML = moveOptions;
-              const moveTrigger = document.querySelector('a[data-target="move-modal-dropdown"]');
-              if (moveTrigger) M.Dropdown.init(moveTrigger, {constrainWidth: false, coverTrigger: false, container: document.body, hover: false});
-          }
-          M.Tooltip.init(document.querySelectorAll('#modal-editor-container .tooltipped'));
-
-
-          if (!noteData.content) {
-              showProgress();
-              try {
-                  const response = await fetch(noteData.path);
-                  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                  const rawHtmlContent = await response.text();
-                  noteData.content = rawHtmlContent; // Store raw content
-              } catch(error) {
-                  M.toast({html: `Error al cargar nota: ${error.message}`, classes: 'red'});
-                  noteData.content = `<p>Error al cargar el contenido.</p>`;
-              } finally {
-                  hideProgress();
-              }
-          }
-          
-          const isEncrypted = noteData.content && noteData.content.startsWith(ENCRYPTION_PREFIX);
-          
-          document.querySelectorAll('#more-options-dropdown li').forEach(li => li.style.display = 'block');
-          if (isEncrypted) {
-              noteEditorContentEditable.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-muted);"><i class="material-icons" style="font-size: 3em; display: block;">lock</i><h3>Nota Cifrada</h3><p>Usa la opción "Editar Cifrado" en el menú para ver y editar.</p></div>`;
-              noteEditorContentEditable.contentEditable = "false";
-              document.querySelectorAll('#more-options-dropdown li').forEach(li => {
-                if (li.id !== 'edit-encrypted-option-li' && li.id !== 'duplicate-note-option-li') {
-                    li.style.display = 'none';
+            const titleWithTags = noteData.tags.length > 0
+                ? `${noteData.displayName} ${noteData.tags.map(t => `#${t}`).join(' ')}`
+                : noteData.displayName;
+            modalTitleInput.value = titleWithTags;
+            
+            const date = noteData.date;
+            const formattedDate = date.toLocaleDateString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric'});
+            const formattedTime = date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+            modDateElement.innerHTML = `Edit: <span class="mod-date-date">${formattedDate}</span><span class="mod-date-time">${formattedTime}</span>`;
+            
+            const noteColor = noteData.color;
+            if (noteColor && noteColor !== '#ffffff') {
+                modalEditorContainer.style.backgroundColor = noteColor;
+                if (isColorLight(noteColor)) {
+                    modalEditorContainer.classList.remove('dark-bg');
+                    modalEditorContainer.classList.add('light-bg');
+                } else {
+                    modalEditorContainer.classList.remove('light-bg');
+                    modalEditorContainer.classList.add('dark-bg');
                 }
-              });
-              editEncryptedOption.parentElement.style.display = 'block';
-          } else {
-              noteEditorContentEditable.innerHTML = processWikilinks(linkifyContent(noteData.content));
-              noteEditorContentEditable.contentEditable = "true";
-              editEncryptedOption.parentElement.style.display = 'none';
+            } else {
+                modalEditorContainer.style.backgroundColor = '';
+                modalEditorContainer.classList.remove('light-bg', 'dark-bg');
+            }
 
-              // --- WIKILINKS/BACKLINKS INTEGRATION START ---
-              const backlinks = [];
-              const forwardLinks = [];
-              const wikilinkRegex = /\[\[(.*?)\]\]/g;
-              
-              const searchStringForBacklinks = `[[${noteData.displayName}]]`;
-              
-              let match;
-              while ((match = wikilinkRegex.exec(noteData.content)) !== null) {
-                  const linkedNoteName = match[1];
-                  const linkedNote = displayNameMap.get(linkedNoteName.toLowerCase());
-                  if (linkedNote) {
-                      forwardLinks.push(linkedNote);
-                  }
-              }
+            pinModalBtn.classList.toggle('pinned', noteData.isPinned);
+            pinModalBtn.dataset.tooltip = noteData.isPinned ? "Quitar fijación" : "Fijar";
 
-              for (const otherNote of allNotesDataMap.values()) {
-                  if (otherNote.name === noteData.name) continue; 
+            const moveModalDropdown = document.getElementById('move-modal-dropdown');
+            if (moveModalDropdown) {
+                let moveOptions = '';
+                predefinedPaths.forEach(p => {
+                    if (p.path !== webdavNotesUrl) {
+                        moveOptions += `<li><a href="#!" data-action="move-to" data-path="${p.path}">${p.name}</a></li>`;
+                    }
+                });
+                moveModalDropdown.innerHTML = moveOptions;
+                const moveTrigger = document.querySelector('a[data-target="move-modal-dropdown"]');
+                if (moveTrigger) M.Dropdown.init(moveTrigger, {constrainWidth: false, coverTrigger: false, container: document.body, hover: false});
+            }
+            M.Tooltip.init(document.querySelectorAll('#modal-editor-container .tooltipped'));
+            
+            modalEditorContainer.classList.remove('hidden');
+            modalOverlay.classList.remove('hidden');
+            document.body.classList.add('modal-active');
+            noteEditorContentEditable.innerHTML = '<p><i>Cargando...</i></p>';
 
-                  let contentToCheck = otherNote.content;
-                  if (!contentToCheck) {
-                      try {
-                          const res = await fetch(otherNote.path);
-                          if (res.ok) {
-                             contentToCheck = await res.text();
-                             otherNote.content = contentToCheck;
-                          }
-                      } catch(e) { contentToCheck = ""; }
-                  }
-                  
-                  if (contentToCheck && contentToCheck.includes(searchStringForBacklinks)) {
-                      backlinks.push(otherNote);
-                  }
-              }
+            // Asynchronously fetch and display content
+            const loadContent = async () => {
+                if (!noteData.content) {
+                    try {
+                        const response = await fetch(noteData.path);
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        noteData.content = await response.text();
+                    } catch(error) {
+                        M.toast({html: `Error al cargar nota: ${error.message}`, classes: 'red'});
+                        noteData.content = `<p>Error al cargar el contenido.</p>`;
+                    }
+                }
+                
+                const isEncrypted = noteData.content && noteData.content.startsWith(ENCRYPTION_PREFIX);
+                document.querySelectorAll('#more-options-dropdown li').forEach(li => li.style.display = 'block');
+                
+                if (isEncrypted) {
+                    noteEditorContentEditable.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--text-muted);"><i class="material-icons" style="font-size: 3em; display: block;">lock</i><h3>Nota Cifrada</h3><p>Usa la opción "Editar Cifrado" en el menú para ver y editar.</p></div>`;
+                    noteEditorContentEditable.contentEditable = "false";
+                    document.querySelectorAll('#more-options-dropdown li').forEach(li => {
+                        if (li.id !== 'edit-encrypted-option-li' && li.id !== 'duplicate-note-option-li') {
+                            li.style.display = 'none';
+                        }
+                    });
+                    editEncryptedOption.parentElement.style.display = 'block';
+                } else {
+                    noteEditorContentEditable.innerHTML = processWikilinks(linkifyContent(noteData.content));
+                    noteEditorContentEditable.contentEditable = "true";
+                    editEncryptedOption.parentElement.style.display = 'none';
+                    // Defer link calculation to run in the background
+                    renderLinks(noteData); 
+                }
 
-              if (backlinks.length > 0 || forwardLinks.length > 0) {
-                  const linksContainer = document.createElement('div');
-                  linksContainer.className = 'links-container';
-                  let linksHtml = '';
+                addCopyButtonsToCodeBlocks(noteEditorContentEditable);
+                initialEditorState = { title: titleWithTags, content: noteData.content };
+                
+                if (options.isNew) {
+                    setTimeout(() => {
+                        noteEditorContentEditable.focus();
+                        const pTag = noteEditorContentEditable.querySelector('p');
+                        if (pTag) {
+                            const range = document.createRange();
+                            const sel = window.getSelection();
+                            range.setStart(pTag, 0);
+                            range.collapse(true);
+                            sel.removeAllRanges();
+                            sel.addRange(range);
+                        }
+                    }, 100);
+                } else if (!isEncrypted) {
+                   setTimeout(() => noteEditorContentEditable.focus(), 100);
+                }
+            };
+            
+            loadContent();
+        }
 
-                  if (forwardLinks.length > 0) {
-                      linksHtml += '<h4>Vinculado a:</h4><ul>';
-                      forwardLinks.forEach(b => {
-                          linksHtml += `<li><a href="?nota=${encodeURIComponent(b.name)}" class="internal-link" data-note-name="${b.name}">${b.displayName}</a></li>`;
-                      });
-                      linksHtml += '</ul>';
-                  }
+        async function renderLinks(noteData) {
+            const backlinks = [];
+            const forwardLinks = [];
+            const wikilinkRegex = /\[\[(.*?)\]\]/g;
+            const searchStringForBacklinks = `[[${noteData.displayName}]]`;
+            
+            let match;
+            while ((match = wikilinkRegex.exec(noteData.content)) !== null) {
+                const linkedNoteName = match[1];
+                const linkedNote = displayNameMap.get(linkedNoteName.toLowerCase());
+                if (linkedNote) {
+                    forwardLinks.push(linkedNote);
+                }
+            }
 
-                  if (backlinks.length > 0) {
-                      linksHtml += '<h4>Vinculado desde:</h4><ul>';
-                      backlinks.forEach(b => {
-                          linksHtml += `<li><a href="?nota=${encodeURIComponent(b.name)}" class="internal-link" data-note-name="${b.name}">${b.displayName}</a></li>`;
-                      });
-                      linksHtml += '</ul>';
-                  }
+            for (const otherNote of allNotesDataMap.values()) {
+                if (otherNote.name === noteData.name) continue;
 
-                  linksContainer.innerHTML = linksHtml;
-                  noteEditorContentEditable.appendChild(linksContainer);
-              }
-              // --- WIKILINKS/BACKLINKS INTEGRATION END ---
-          }
+                let contentToCheck = otherNote.content;
+                if (!contentToCheck) {
+                    try {
+                        const res = await fetch(otherNote.path);
+                        if (res.ok) {
+                           contentToCheck = await res.text();
+                           otherNote.content = contentToCheck;
+                        }
+                    } catch(e) { contentToCheck = ""; }
+                }
+                
+                if (contentToCheck && contentToCheck.includes(searchStringForBacklinks)) {
+                    backlinks.push(otherNote);
+                }
+            }
 
-          addCopyButtonsToCodeBlocks(noteEditorContentEditable);
+            const editor = document.getElementById('note-editor-contenteditable');
+            if (currentEditingNoteName !== noteData.name || !editor) return; // User has moved on
 
-          initialEditorState = { title: titleWithTags, content: noteData.content };
+            if (backlinks.length > 0 || forwardLinks.length > 0) {
+                const linksContainer = document.createElement('div');
+                linksContainer.className = 'links-container';
+                let linksHtml = '';
 
-          modalEditorContainer.classList.remove('hidden');
-          modalOverlay.classList.remove('hidden');
-          document.body.classList.add('modal-active');
-          
-          if (options.isNew) {
-              setTimeout(() => {
-                  noteEditorContentEditable.focus();
-                  const pTag = noteEditorContentEditable.querySelector('p');
-                  if (pTag) {
-                      const range = document.createRange();
-                      const sel = window.getSelection();
-                      range.setStart(pTag, 0);
-                      range.collapse(true);
-                      sel.removeAllRanges();
-                      sel.addRange(range);
-                  }
-              }, 100);
-          } else if (!isEncrypted) {
-              setTimeout(() => noteEditorContentEditable.focus(), 100);
-          }
+                if (forwardLinks.length > 0) {
+                    linksHtml += '<h4>Vinculado a:</h4><ul>';
+                    forwardLinks.forEach(b => {
+                        linksHtml += `<li><a href="?nota=${encodeURIComponent(b.name)}" class="internal-link" data-note-name="${b.name}">${b.displayName}</a></li>`;
+                    });
+                    linksHtml += '</ul>';
+                }
+
+                if (backlinks.length > 0) {
+                    linksHtml += '<h4>Vinculado desde:</h4><ul>';
+                    backlinks.forEach(b => {
+                        linksHtml += `<li><a href="?nota=${encodeURIComponent(b.name)}" class="internal-link" data-note-name="${b.name}">${b.displayName}</a></li>`;
+                    });
+                    linksHtml += '</ul>';
+                }
+
+                linksContainer.innerHTML = linksHtml;
+                editor.appendChild(linksContainer);
+            }
         }
          
         async function hideEditorView() {
@@ -2230,8 +2234,7 @@
         
         async function fetchNotesAndDisplayCards() {
           const startTime = performance.now();
-          let totalSize = 0;
-
+          
           showProgress();
           notesCountElement.textContent = '';
           const currentHtmlFileName = new URL(document.baseURI).pathname.split('/').pop();
@@ -2252,44 +2255,17 @@
               if (response.status !== 207) throw new Error(`Error lista: ${response.status}`);
 
               const responseText = await response.text();
-              totalSize += responseText.length;
               const xml = new DOMParser().parseFromString(responseText, "text/xml");
               const responses = xml.getElementsByTagName("D:response");
               let tempAllFiles = [];
 
               for (let r of responses) {
                   const fileDataObject = _parseWebDavEntry(r, currentHtmlFileName);
-                  if (fileDataObject) tempAllFiles.push(fileDataObject);
-              }
-
-              const contentFetchPromises = tempAllFiles.map(note => {
-                  if (isSimpleMode || notesGridContainer.classList.contains('list-view')) {
-                      note.content = null;
-                      note.textContentForSearch = note.displayName.toLowerCase();
-                      return Promise.resolve(note);
+                  if (fileDataObject) {
+                      fileDataObject.textContentForSearch = (fileDataObject.displayName + " " + fileDataObject.tags.join(" ")).toLowerCase();
+                      tempAllFiles.push(fileDataObject);
                   }
-                  return fetch(note.path)
-                      .then(res => res.ok ? res.text() : '')
-                      .then(html => {
-                          totalSize += html.length;
-                          const doc = contentParser.parseFromString(html, 'text/html');
-                          if (html.startsWith(ENCRYPTION_PREFIX)) {
-                              note.textContentForSearch = "[cifrado]";
-                          } else {
-                              note.textContentForSearch = (doc.body.textContent || "").toLowerCase();
-                          }
-                          note.content = html;
-                          return note;
-                      })
-                      .catch(() => {
-                          note.content = '<p>Error al cargar.</p>';
-                          note.textContentForSearch = '';
-                          return note;
-                      })
-              });
-              
-              tempAllFiles = await Promise.all(contentFetchPromises);
-              isSearchIndexReady = true;
+              }
 
               const notesToDelete = tempAllFiles.filter(note => {
                   if (!note.isTrashed) return false;
@@ -2317,11 +2293,7 @@
 
               const endTime = performance.now();
               const elapsedTime = ((endTime - startTime) / 1000).toFixed(1);
-              const sizeInMB = (totalSize / (1024 * 1024)).toFixed(2);
-              M.toast({
-                  html: `Descargado: ${sizeInMB} MB. Tiempo: ${elapsedTime} segundos`,
-                  displayLength: 5000
-              });
+              console.log(`Initial load time: ${elapsedTime} seconds`);
 
           } catch (error) {
               M.toast({html: `${error.message || 'Error de red'}`, classes: 'red'});
@@ -4103,6 +4075,7 @@
                 });
             }
         });
+        
         markdownToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             modalEditorContainer.classList.toggle('markdown-active');
@@ -4113,7 +4086,7 @@
             if (isActive) {
                 const currentHtml = noteEditorContentEditable.innerHTML;
                 noteEditorContentEditable.innerText = turndownService.turndown(currentHtml);
-                markdownViewState = 1; // Reset to split view
+                markdownViewState = 1; 
                 applyMarkdownViewState();
                 updateMarkdownPreview();
             } else {
@@ -5431,7 +5404,7 @@
         // --- YouTube Embed Logic ---
         async function handlePaste(e) {
             const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-            const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{11})/;
+            const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{11})/;
             const match = pastedText.match(youtubeRegex);
 
             if (match && match[1]) {
