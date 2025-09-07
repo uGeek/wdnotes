@@ -530,29 +530,30 @@
     }
     #tag-suggestion-list .create-new-tag-option:hover { background-color: var(--bg-tertiary); }
     
-    #edit-tags-modal-overlay, #help-modal-overlay, #create-table-modal-overlay, #history-modal-overlay, #global-history-modal-overlay, #history-preview-modal-overlay, #encrypt-modal-overlay {
+    #edit-tags-modal-overlay, #help-modal-overlay, #create-table-modal-overlay, #history-modal-overlay, #global-history-modal-overlay, #history-preview-modal-overlay, #encrypt-modal-overlay, #tags-cloud-modal-overlay, #images-gallery-modal-overlay, #calendar-modal-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background-color: rgba(0,0,0,0.6); z-index: 1050;
     }
-    #edit-tags-modal, #help-modal, #create-table-modal, #history-modal, #global-history-modal, #history-preview-modal, #encrypt-modal {
+    #edit-tags-modal, #help-modal, #create-table-modal, #history-modal, #global-history-modal, #history-preview-modal, #encrypt-modal, #tags-cloud-modal, #images-gallery-modal, #calendar-modal {
         position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
         width: 90%; max-width: 500px;
         background-color: var(--bg-secondary); color: var(--text-primary);
         border-radius: var(--border-radius); box-shadow: var(--shadow-lg);
         z-index: 1051; display: flex; flex-direction: column; max-height: 80vh;
     }
+    #images-gallery-modal { max-width: 90%; max-height: 90vh; }
     #global-history-modal { max-width: 800px; }
     #create-table-modal, #encrypt-modal { max-width: 320px; }
     #history-preview-modal { max-width: 800px; }
-    #edit-tags-modal .modal-header, #help-modal .modal-header, #create-table-modal .modal-header, #history-modal .modal-header, #global-history-modal .modal-header, #history-preview-modal .modal-header, #encrypt-modal .modal-header {
+    #edit-tags-modal .modal-header, #help-modal .modal-header, #create-table-modal .modal-header, #history-modal .modal-header, #global-history-modal .modal-header, #history-preview-modal .modal-header, #encrypt-modal .modal-header, #tags-cloud-modal .modal-header, #images-gallery-modal .modal-header, #calendar-modal .modal-header {
         padding: 16px 24px; border-bottom: 1px solid var(--border-color);
         display: flex; justify-content: space-between; align-items: center;
     }
-    #edit-tags-modal .modal-header h3, #help-modal .modal-header h3, #create-table-modal .modal-header h3, #history-modal .modal-header h3, #global-history-modal .modal-header h3, #history-preview-modal .modal-header h3, #encrypt-modal .modal-header h3 { margin: 0; font-size: 1.25rem; }
-    #edit-tags-modal .modal-content, #help-modal .modal-content, #create-table-modal .modal-content, #history-modal .modal-content, #global-history-modal .modal-content, #history-preview-modal .modal-content, #encrypt-modal .modal-content { flex-grow: 1; overflow-y: auto; padding: 24px; }
-    #edit-tags-modal .modal-footer, #help-modal .modal-footer, #create-table-modal .modal-footer, #history-modal .modal-footer, #global-history-modal .modal-footer, #history-preview-modal .modal-footer, #encrypt-modal .modal-footer { padding: 8px 16px; border-top: 1px solid var(--border-color); text-align: right; }
-    #edit-tags-modal .modal-footer a, #help-modal .modal-footer a, #create-table-modal .modal-footer a, #history-modal .modal-footer a, #global-history-modal .modal-footer a, #history-preview-modal .modal-footer a, #encrypt-modal .modal-footer a { font-weight: 500; padding: 8px 16px; border-radius: 4px; cursor: pointer; color: var(--text-secondary); text-decoration: none;}
-    #edit-tags-modal .modal-footer a:hover, #help-modal .modal-footer a:hover, #create-table-modal .modal-footer a:hover, #history-modal .modal-footer a:hover, #global-history-modal .modal-footer a:hover, #history-preview-modal .modal-footer a:hover, #encrypt-modal .modal-footer a:hover { background-color: var(--bg-tertiary); }
+    #edit-tags-modal .modal-header h3, #help-modal .modal-header h3, #create-table-modal .modal-header h3, #history-modal .modal-header h3, #global-history-modal .modal-header h3, #history-preview-modal .modal-header h3, #encrypt-modal .modal-header h3, #tags-cloud-modal .modal-header h3, #images-gallery-modal .modal-header h3, #calendar-modal .modal-header h3 { margin: 0; font-size: 1.25rem; }
+    #edit-tags-modal .modal-content, #help-modal .modal-content, #create-table-modal .modal-content, #history-modal .modal-content, #global-history-modal .modal-content, #history-preview-modal .modal-content, #encrypt-modal .modal-content, #tags-cloud-modal .modal-content, #images-gallery-modal .modal-content, #calendar-modal .modal-content { flex-grow: 1; overflow-y: auto; padding: 24px; }
+    #edit-tags-modal .modal-footer, #help-modal .modal-footer, #create-table-modal .modal-footer, #history-modal .modal-footer, #global-history-modal .modal-footer, #history-preview-modal .modal-footer, #encrypt-modal .modal-footer, #tags-cloud-modal .modal-footer, #images-gallery-modal .modal-footer, #calendar-modal .modal-footer { padding: 8px 16px; border-top: 1px solid var(--border-color); text-align: right; }
+    #edit-tags-modal .modal-footer a, #help-modal .modal-footer a, #create-table-modal .modal-footer a, #history-modal .modal-footer a, #global-history-modal .modal-footer a, #history-preview-modal .modal-footer a, #encrypt-modal .modal-footer a, #tags-cloud-modal .modal-footer a, #images-gallery-modal .modal-footer a, #calendar-modal .modal-footer a { font-weight: 500; padding: 8px 16px; border-radius: 4px; cursor: pointer; color: var(--text-secondary); text-decoration: none;}
+    #edit-tags-modal .modal-footer a:hover, #help-modal .modal-footer a:hover, #create-table-modal .modal-footer a:hover, #history-modal .modal-footer a:hover, #global-history-modal .modal-footer a:hover, #history-preview-modal .modal-footer a:hover, #encrypt-modal .modal-footer a:hover, #tags-cloud-modal .modal-footer a:hover, #images-gallery-modal .modal-footer a:hover, #calendar-modal .modal-footer a:hover { background-color: var(--bg-tertiary); }
     #global-history-modal .modal-footer { display: flex; justify-content: space-between; align-items: center; }
     #edit-tags-modal .create-tag-section, #editable-tags-list li {
         display: flex; align-items: center; padding: 8px 24px; min-height: 48px;
@@ -913,6 +914,52 @@
         margin-top: 4px;
     }
 
+    /* Tags Cloud Styles */
+    #tags-cloud-content a.tag-cloud-item {
+        display: inline-block;
+        margin: 5px;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: var(--text-primary);
+        border-radius: 4px;
+        background-color: var(--bg-tertiary);
+        transition: background-color 0.2s;
+    }
+    #tags-cloud-content a.tag-cloud-item:hover {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    /* Images Gallery Styles */
+    #images-gallery-content .gallery-image-item {
+        cursor: pointer;
+        overflow: hidden;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+    }
+    #images-gallery-content .gallery-image-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.2s;
+    }
+    #images-gallery-content .gallery-image-item:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Calendar Styles */
+    #calendar-modal-header { display: flex; align-items: center; justify-content: space-between; }
+    #calendar-modal-header h4 { margin: 0; font-size: 1.2rem; }
+    #calendar-modal-header button { background: none; border: none; cursor: pointer; color: var(--text-secondary); padding: 8px; border-radius: 50%; }
+    #calendar-modal-header button:hover { background-color: var(--bg-tertiary); }
+    #calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+    #calendar-grid .day-name { font-weight: bold; color: var(--text-muted); font-size: 0.8em; padding-bottom: 8px; }
+    #calendar-grid .day-cell { padding: 8px 0; border-radius: 50%; cursor: pointer; transition: background-color 0.2s; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center;}
+    #calendar-grid .day-cell.empty { cursor: default; background: none !important; }
+    #calendar-grid .day-cell:not(.empty):hover { background-color: var(--bg-tertiary); }
+    #calendar-grid .day-cell.has-notes { background-color: var(--primary-color); color: white; font-weight: bold; }
+    #calendar-grid .day-cell.has-notes:hover { background-color: var(--primary-dark); }
 
     @media (max-width: 768px) {
         #universal-note-input { font-size: 1.1rem; }
@@ -1035,6 +1082,10 @@
         <li><a href="#!" id="global-history-btn"><i class="material-icons">history</i>Historial Global</a></li>
         <li><a href="#!" id="toggle-mode-btn"></a></li>
         <li><a href="#!" id="toggle-view-btn"></a></li>
+        <li class="divider" tabindex="-1"></li>
+        <li><a href="#!" id="show-tags-cloud-btn"><i class="material-icons">local_offer</i>Nube de Etiquetas</a></li>
+        <li><a href="#!" id="show-images-gallery-btn"><i class="material-icons">image</i>Galería de Imágenes</a></li>
+        <li><a href="#!" id="show-calendar-btn"><i class="material-icons">event</i>Calendario</a></li>
         <div id="other-books-container"></div>
       </ul>
     </div>
@@ -1251,6 +1302,48 @@
           <a href="#!" id="confirm-encrypt-btn">ACEPTAR</a>
       </div>
   </div>
+
+    <!-- Tags Cloud Modal -->
+    <div id="tags-cloud-modal-overlay" class="hidden"></div>
+    <div id="tags-cloud-modal" class="hidden">
+        <div class="modal-header">
+            <h3>Nube de Etiquetas</h3>
+        </div>
+        <div class="modal-content" id="tags-cloud-content" style="text-align: center; padding: 24px;">
+            <!-- Tag cloud will be generated here -->
+        </div>
+        <div class="modal-footer">
+            <a href="#!" id="close-tags-cloud-modal-btn">CERRAR</a>
+        </div>
+    </div>
+
+    <!-- Images Gallery Modal -->
+    <div id="images-gallery-modal-overlay" class="hidden"></div>
+    <div id="images-gallery-modal" class="hidden">
+        <div class="modal-header">
+            <h3>Galería de Imágenes</h3>
+        </div>
+        <div class="modal-content" id="images-gallery-content" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding: 10px;">
+            <!-- Images will be injected here -->
+        </div>
+        <div class="modal-footer">
+            <a href="#!" id="close-images-gallery-modal-btn">CERRAR</a>
+        </div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div id="calendar-modal-overlay" class="hidden"></div>
+    <div id="calendar-modal" class="hidden">
+        <div class="modal-header" id="calendar-modal-header" style="justify-content: space-between; align-items: center; padding: 16px 24px;">
+            <!-- Calendar header (Month/Year + Nav) will be generated here -->
+        </div>
+        <div class="modal-content" id="calendar-modal-content" style="padding: 0 24px 24px 24px;">
+            <!-- Calendar grid will be generated here -->
+        </div>
+        <div class="modal-footer">
+            <a href="#!" id="close-calendar-modal-btn">CERRAR</a>
+        </div>
+    </div>
   
   <div id="dictationModal">
       <div class="app-header">
@@ -1603,6 +1696,28 @@
         const customColorPicker = document.getElementById('custom-color-picker');
 
         const progressOverlay = document.getElementById('progress-overlay');
+
+        const showTagsCloudBtn = document.getElementById('show-tags-cloud-btn');
+        const showImagesGalleryBtn = document.getElementById('show-images-gallery-btn');
+        const showCalendarBtn = document.getElementById('show-calendar-btn');
+
+        const tagsCloudModal = document.getElementById('tags-cloud-modal');
+        const tagsCloudModalOverlay = document.getElementById('tags-cloud-modal-overlay');
+        const closeTagsCloudModalBtn = document.getElementById('close-tags-cloud-modal-btn');
+        const tagsCloudContent = document.getElementById('tags-cloud-content');
+
+        const imagesGalleryModal = document.getElementById('images-gallery-modal');
+        const imagesGalleryModalOverlay = document.getElementById('images-gallery-modal-overlay');
+        const closeImagesGalleryModalBtn = document.getElementById('close-images-gallery-modal-btn');
+        const imagesGalleryContent = document.getElementById('images-gallery-content');
+
+        const calendarModal = document.getElementById('calendar-modal');
+        const calendarModalOverlay = document.getElementById('calendar-modal-overlay');
+        const closeCalendarModalBtn = document.getElementById('close-calendar-modal-btn');
+        const calendarModalHeader = document.getElementById('calendar-modal-header');
+        const calendarModalContent = document.getElementById('calendar-modal-content');
+
+        let currentCalendarDate = new Date();
 
         const excludePages = ['index.html', 'editor.html']; 
         const PIN_FILE_NAME = "pin.txt"; 
@@ -3520,6 +3635,168 @@
           });
         }
 
+        // Generic function to open a modal
+        function openModal(modal, overlay) {
+            modal.classList.remove('hidden');
+            overlay.classList.remove('hidden');
+            document.body.classList.add('modal-active');
+        }
+
+        // Generic function to close a modal
+        function closeModal(modal, overlay) {
+            modal.classList.add('hidden');
+            overlay.classList.add('hidden');
+            document.body.classList.remove('modal-active');
+        }
+
+        // Tags Cloud
+        function showTagsCloudModal() {
+            renderTagsCloud();
+            openModal(tagsCloudModal, tagsCloudModalOverlay);
+        }
+        function hideTagsCloudModal() {
+            closeModal(tagsCloudModal, tagsCloudModalOverlay);
+        }
+        function renderTagsCloud() {
+            tagsCloudContent.innerHTML = 'Calculando...';
+            const tagCounts = {};
+            allNotesDataMap.forEach(note => {
+                note.tags.forEach(tag => {
+                    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+                });
+            });
+
+            const counts = Object.values(tagCounts);
+            if (counts.length === 0) {
+                tagsCloudContent.innerHTML = 'No hay etiquetas para mostrar.';
+                return;
+            }
+            const minCount = Math.min(...counts);
+            const maxCount = Math.max(...counts);
+            const minFontSize = 1; // em
+            const maxFontSize = 2.5; // em
+
+            const sortedTags = Object.entries(tagCounts).sort((a, b) => a[0].localeCompare(b[0]));
+
+            let tagsHTML = '';
+            for (const [tag, count] of sortedTags) {
+                let fontSize = minFontSize;
+                if (maxCount > minCount) {
+                    fontSize = minFontSize + (maxFontSize - minFontSize) * (count - minCount) / (maxCount - minCount);
+                }
+                tagsHTML += `<a href="#" class="tag-cloud-item" data-tag="${tag}" style="font-size: ${fontSize}em;">${tag}</a> `;
+            }
+            tagsCloudContent.innerHTML = tagsHTML;
+        }
+
+
+        // Images Gallery
+        function showImagesGalleryModal() {
+            renderImageGallery();
+            openModal(imagesGalleryModal, imagesGalleryModalOverlay);
+        }
+        function hideImagesGalleryModal() {
+            closeModal(imagesGalleryModal, imagesGalleryModalOverlay);
+        }
+        async function renderImageGallery() {
+            imagesGalleryContent.innerHTML = 'Buscando imágenes...';
+            let images = [];
+            
+            const contentPromises = Array.from(allNotesDataMap.values()).map(async (note) => {
+                let content = note.content;
+                if (!content) {
+                    try {
+                        const response = await fetch(note.path);
+                        if (response.ok) {
+                            content = await response.text();
+                            note.content = content; // Cache it
+                        }
+                    } catch (e) { content = ''; }
+                }
+
+                if (content && !content.startsWith(ENCRYPTION_PREFIX)) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = content;
+                    const noteImages = tempDiv.querySelectorAll('img');
+                    if (noteImages.length > 0) {
+                        noteImages.forEach(img => {
+                            images.push({ src: img.src, noteName: note.name });
+                        });
+                    }
+                }
+            });
+            await Promise.all(contentPromises);
+
+
+            if (images.length === 0) {
+                imagesGalleryContent.innerHTML = 'No se encontraron imágenes en las notas.';
+                return;
+            }
+
+            imagesGalleryContent.innerHTML = images.map(img => `
+                <div class="gallery-image-item" data-note-name="${img.noteName}" title="Ir a la nota">
+                    <img src="${img.src}" alt="Imagen de nota" loading="lazy">
+                </div>
+            `).join('');
+        }
+
+        // Calendar
+        function showCalendarModal() {
+            currentCalendarDate = new Date(); // Reset to current month
+            renderCalendar();
+            openModal(calendarModal, calendarModalOverlay);
+        }
+        function hideCalendarModal() {
+            closeModal(calendarModal, calendarModalOverlay);
+        }
+        function renderCalendar() {
+            const month = currentCalendarDate.getMonth();
+            const year = currentCalendarDate.getFullYear();
+
+            const noteDates = new Set();
+            allNotesDataMap.forEach(note => {
+                const d = note.date;
+                noteDates.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`);
+            });
+
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+
+            calendarModalHeader.innerHTML = `
+                <button id="calendar-prev-month"><i class="material-icons">chevron_left</i></button>
+                <h4>${monthNames[month]} ${year}</h4>
+                <button id="calendar-next-month"><i class="material-icons">chevron_right</i></button>
+            `;
+
+            let gridHTML = '<div id="calendar-grid">';
+            dayNames.forEach(day => gridHTML += `<div class="day-name">${day}</div>`);
+
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                gridHTML += '<div class="day-cell empty"></div>';
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const hasNotes = noteDates.has(dateString);
+                gridHTML += `<div class="day-cell ${hasNotes ? 'has-notes' : ''}" data-date="${dateString}">${i}</div>`;
+            }
+            gridHTML += '</div>';
+            calendarModalContent.innerHTML = gridHTML;
+
+            document.getElementById('calendar-prev-month').onclick = () => {
+                currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+                renderCalendar();
+            };
+            document.getElementById('calendar-next-month').onclick = () => {
+                currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+                renderCalendar();
+            };
+        }
+
+
         createNoteIconButton.addEventListener('click', () => addNewNote());
         clearFilterButton.addEventListener('click', () => {
             universalNoteInput.value = '';
@@ -3920,6 +4197,56 @@
 
         closeHelpModalBtn.addEventListener('click', hideHelpModal);
         helpModalOverlay.addEventListener('click', hideHelpModal);
+        
+        // Main buttons
+        showTagsCloudBtn.addEventListener('click', (e) => { e.preventDefault(); showTagsCloudModal(); });
+        showImagesGalleryBtn.addEventListener('click', (e) => { e.preventDefault(); showImagesGalleryModal(); });
+        showCalendarBtn.addEventListener('click', (e) => { e.preventDefault(); showCalendarModal(); });
+
+        // Close buttons and overlays
+        closeTagsCloudModalBtn.addEventListener('click', hideTagsCloudModal);
+        tagsCloudModalOverlay.addEventListener('click', hideTagsCloudModal);
+        closeImagesGalleryModalBtn.addEventListener('click', hideImagesGalleryModal);
+        imagesGalleryModalOverlay.addEventListener('click', hideImagesGalleryModal);
+        closeCalendarModalBtn.addEventListener('click', hideCalendarModal);
+        calendarModalOverlay.addEventListener('click', hideCalendarModal);
+
+        // Event delegation for dynamically created content
+        tagsCloudContent.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = e.target.closest('a.tag-cloud-item');
+            if (target) {
+                const tag = target.dataset.tag;
+                universalNoteInput.value = `#${tag}`;
+                universalNoteInput.dispatchEvent(new Event('input')); // Trigger filter
+                hideTagsCloudModal();
+            }
+        });
+
+        imagesGalleryContent.addEventListener('click', (e) => {
+            const target = e.target.closest('.gallery-image-item');
+            if (target) {
+                const noteName = target.dataset.noteName;
+                hideImagesGalleryModal();
+                showEditorView(noteName);
+            }
+        });
+
+        calendarModalContent.addEventListener('click', (e) => {
+            const target = e.target.closest('.day-cell.has-notes');
+            if (target) {
+                const dateStr = target.dataset.date;
+                const notesForDate = Array.from(allNotesDataMap.values()).filter(note => {
+                    const d = note.date;
+                    const noteDateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                    return noteDateStr === dateStr;
+                });
+                
+                displaySortedNotes(notesForDate);
+                hideCalendarModal();
+                universalNoteInput.value = `Fecha: ${dateStr}`;
+            }
+        });
 
         document.addEventListener("keydown", e => {
           const isModalOpen = !modalEditorContainer.classList.contains('hidden');
